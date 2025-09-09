@@ -59,6 +59,7 @@ void Member::changePassword(){
     } while (!isStrongPasssword(newpass));
     this->password = newpass;
     cout << "Your new password has been saved successfully!" << endl;
+}
 void Member::ProfileManagement(){
     int choice;
     do {
@@ -94,4 +95,5 @@ void Member::ProfileManagement(){
         }
     } while (choice != 3);
 }
+
 
