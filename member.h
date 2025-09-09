@@ -28,6 +28,8 @@ class Member{
     static bool isStrongPasssword(string password);
     friend class Admin;
     void changePassword();
+void ProfileManage();
 };
 
 #endif
+
