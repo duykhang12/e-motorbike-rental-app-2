@@ -59,4 +59,39 @@ void Member::changePassword(){
     } while (!isStrongPasssword(newpass));
     this->password = newpass;
     cout << "Your new password has been saved successfully!" << endl;
+void Member::ProfileManagement(){
+    int choice;
+    do {
+        cout << "Profile Management Menu:" << endl;
+        cout << "1. View Profile" << endl;
+        cout << "2. Change Password" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Profile Information:" << endl;
+                cout << "Username: " << username << endl;
+                cout << "Full Name: " << fullname << endl;
+                cout << "Email: " << email << endl;
+                cout << "ID Type: " << id_type << endl;
+                cout << "ID Number: " << id << endl;
+                cout << "Phone Number: " << phone_number << endl;
+                cout << "License Number: " << licen_number << endl;
+                cout << "Expiry Date: " << expiry_date << endl;
+                cout << "Credit Points: " << cp << endl;
+                cout << "Rating: " << rating << endl;
+                break;
+            case 2:
+                changePassword();
+                break;
+            case 3:
+                cout << "Exiting Profile Management." << endl;
+                break;
+            default:
+                cout << "Invalid choice! Please try again." << endl;
+        }
+    } while (choice != 3);
 }
+
