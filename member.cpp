@@ -62,11 +62,13 @@ void Member::changePassword(){
 }
 void Member::ProfileManagement(){
     int choice;
+    int YourCP = this->cp;
     do {
         cout << "Profile Management Menu:" << endl;
         cout << "1. View Profile" << endl;
         cout << "2. Change Password" << endl;
-        cout << "3. Exit" << endl;
+        cout << "3.Top up CP balance" << endl;
+        cout << "4. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -88,12 +90,26 @@ void Member::ProfileManagement(){
                 changePassword();
                 break;
             case 3:
+                int topup;
+                cout << "Your current CP balance: " << YourCP << endl;
+                cout << "Enter amount to top up: ";
+                cin >> topup;
+                if (topup > 0) {
+                    YourCP += topup;
+                    this->cp = YourCP;
+                    cout << "Top up successful! New CP balance: " << YourCP << endl;
+                } else {
+                    cout << "Invalid top up amount!" << endl;
+                }
+                break;    
+            case 4:
                 cout << "Exiting Profile Management." << endl;
                 break;
             default:
                 cout << "Invalid choice! Please try again." << endl;
         }
-    } while (choice != 3);
+    } while (choice != 4);
 }
+
 
 
