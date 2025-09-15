@@ -28,10 +28,13 @@ class Member{
     static bool isStrongPasssword(string password);
     friend class Admin;
     void changePassword();
-void ProfileManagement();
+    void ProfileManagement();
+    string normalizeDate(string dateStr);
+    void searchMotorbikes(vector<Motorbike*> &motorbikes);
 };
 
 #endif
+
 
 
 
