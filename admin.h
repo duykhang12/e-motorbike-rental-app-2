@@ -4,14 +4,13 @@
 #include <iostream>
 #include <vector>
 #include "member.h"
-#include "Motorbike.h"
+#include "motorbike.h"
 using namespace std;
 
 class Admin{
     private:
     vector<Member*> Member_list;
     vector<Motorbike*> Motorbike_list;
-
     public:
     Admin(){}
     Admin(vector<Member*> Member_list, vector<Motorbike*> Motorbike_list);
@@ -19,10 +18,10 @@ class Admin{
     void showGeneralMotorbike_list();
     void showAllMember_List();
     void showAllMotorbike_List();
-    bool reloadData();
+    bool reloadMembers();
+    bool reloadMotorbikes();
     void saveData();
+    friend class Member;
 };
 
-
 #endif
-
