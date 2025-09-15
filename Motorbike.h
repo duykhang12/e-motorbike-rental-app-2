@@ -39,7 +39,7 @@ public:
     std::string getOwnerName();
     std::string getAvailableFrom();
     std::string getAvailableTo();
-    string toString();
+    std::string toString();
     friend class Member;
     friend class Admin;
 };
