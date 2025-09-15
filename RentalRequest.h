@@ -2,7 +2,7 @@
 #define RENTALREQUEST_H
 
 #include <string>
-#include "Member.h"
+#include "member.h"
 #include "Motorbike.h"
 using namespace std;
 
@@ -37,3 +37,4 @@ public:
 };
 
 #endif
+
