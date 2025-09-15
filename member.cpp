@@ -111,6 +111,60 @@ void Member::ProfileManagement(){
     } while (choice != 4);
 }
 
+string Member::normalizeDate(string dateStr){
+    int d, m, y;
+    char sep1, sep2;
+    stringstream ss(dateStr);
+    ss >> d >> sep1 >> m >> sep2 >> y;
+    // format YYYYMMDD
+    stringstream out;
+    out << setw(4) << setfill('0') << y
+    << setw(2) << setfill('0') << m
+    << setw(2) << setfill('0') << d;
+    return out.str();
+}
+
+void Member::searchMotorbikes(vector<Motorbike*> &motorbikes) {
+    string startDate, endDate, city;
+    cout << "Enter start date (dd/mm/yyyy): ";
+    cin >> startDate;
+    cout << "Enter end date (dd/mm/yyyy): ";
+    cin >> endDate;
+    cout << "Enter your city(HCMC or Hanoi): ";
+    cin >> city;
+
+    cout << "--- Search Results ---\n";
+    for (auto b : motorbikes) {
+        bool valid = true;
+
+        if (this->rating < b->rating){
+            valid = false;
+        }
+        if (this->cp < b->dailyRateCP){
+            valid = false;
+        }
+        if (b->engineSize > 50 && this->licen_number == 0){
+            valid = false;
+        }
+        if (b->location != city){
+            valid = false;
+        }
+        if (!(normalizeDate(startDate) >= b->availableFrom && normalizeDate(endDate) <= b->availableTo)){
+            valid = false;
+        }
+        if (valid) {
+            cout << b->brand << " " << b->model
+                 << " | Engine: " << b->engineSize
+                 << "cc | Rate: " << b->dailyRateCP << " CP/day"
+                 << " | ReqRating: " << b->rating
+                 << " | City: " << b->location
+                 << " | Available: " << b->availableFrom
+                 << " - " << b->availableTo
+                 << endl;
+        }
+    }
+}
+
 
 
 
