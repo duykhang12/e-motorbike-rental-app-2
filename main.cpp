@@ -15,10 +15,10 @@ void displayWelcomeScreen() {
     std::cout << "============================================\n";
     std::cout << "Instructor: Dr Ling Huo Chong, Dr Ushik Shrestha, Dr Tri Huynh\n";
     std::cout << "Group: Group No.14\n";
-    std::cout << "XXXXX, Student Name\n";
-    std::cout << "XXXXX, Student Name\n";
-    std::cout << "XXXXX, Student Name\n";
-    std::cout << "XXXXX, Student Name\n";
+    std::cout << "s4138880, Khai Trinh Van\n";
+    std::cout << "s4140414, Loc The Do\n";
+    std::cout << "s3963613, Khang Nguyen Duy\n";
+    std::cout << "s4037876, Duc Hoang Ngo Anh\n";
 }
 
 void menu() {
