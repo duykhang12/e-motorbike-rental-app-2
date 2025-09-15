@@ -10,7 +10,6 @@ using namespace std;
 #define MYFILE1 "motorbikes.txt"
 #define MYFILE2 "members.txt"
 
-
 void Admin::showAllMember_List(){
     cout << left 
          << "| " << setw(10) << "Username"
@@ -96,7 +95,8 @@ void Admin::regist(){
     cin >> username;
     do {
         cout << "Enter your password: ";
-        cin >> password;
+        cin.ignore(1,'\n');
+        getline(cin, password);
         if (!Member::isStrongPasssword(password)){
             cout << "Weak password! Must be at least 8 characters and include uppercase, lowercase, digit, and special character." << endl;
         }
@@ -136,11 +136,11 @@ void Admin::regist(){
     }
     cout << "Registration fee is 20$. Your CP: 20 (1$=1CP)" << endl;
     cout << "Your default rating is 3.0";
-    Member newmem(username, password, fullname, email, id_type, phone_number, id, licen_number, expiry_date);
-    Member_list.push_back(&newmem);
+    Member* newmem = new Member(username, password, fullname, email, id_type, phone_number, id, licen_number, expiry_date);
+    Member_list.push_back(newmem);
 }
 
-bool Admin::reloadData(){
+bool Admin::reloadMotorbikes(){
     ifstream myfile1;
     myfile1.open(MYFILE1);
     if (!myfile1){
@@ -180,13 +180,15 @@ bool Admin::reloadData(){
             getline(myfile1,availableFrom,',');
             getline(myfile1,availableTo,',');
             
-            Motorbike motors(brand, model, color, engineSize, yearMade, licensePlate, location, dailyRateCP, rating, ownerName, availableFrom, availableTo);
-            Motorbike_list.push_back(&motors);
+            Motorbike* motors = new Motorbike(brand, model, color, engineSize, yearMade, licensePlate, location, dailyRateCP, rating, ownerName, availableFrom, availableTo);
+            Motorbike_list.push_back(motors);
         }
         myfile1.close();
         return true;
     }
+}
 
+bool Admin::reloadMembers(){
     ifstream myfile2;
     myfile2.open(MYFILE2);
     if (!myfile2){
@@ -214,8 +216,8 @@ bool Admin::reloadData(){
             getline(myfile2,ratingstr,',');
             rating = stod(ratingstr);
 
-            Member mems(username, password, fullname, email, id_type, id, phone_number, licen_number, expiry_date, cp, rating);
-            Member_list.push_back(&mems);
+            Member* mems = new Member(username, password, fullname, email, id_type, id, phone_number, licen_number, expiry_date, cp, rating);
+            Member_list.push_back(mems);
         }
         myfile2.close();
         return true;
@@ -224,7 +226,7 @@ bool Admin::reloadData(){
     for (auto i : Member_list){
         for (auto j : Motorbike_list){
             if (i->fullname.compare(j->ownerName) == 0){
-                j = i->ownermotorbike;
+                i->ownermotorbike = j;
             }
         }
     }
@@ -242,7 +244,7 @@ void Admin::saveData(){
         cout << "Motorbikes list is empty. 0 motorbike is saved" << endl;
     } else {
         for (auto i : Motorbike_list){
-            myfile1 << i->tostring() << endl;
+            myfile1 << i->toString() << endl;
         }
     }
     myfile1.close();
@@ -254,12 +256,11 @@ void Admin::saveData(){
         return;
     }
     if (Member_list.empty()){
-        cout << "Motorbikes list is empty. 0 motorbike is saved" << endl;
+        cout << "Members list is empty. 0 member is saved" << endl;
     } else {
         for (auto i : Member_list){
-            myfile1 << i->tostring() << endl;
+            myfile2 << i->toString() << endl;
         }
     }
     myfile2.close();
 }
-
