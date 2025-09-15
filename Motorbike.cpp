@@ -19,3 +19,8 @@ double Motorbike::getRating() { return rating; }
 std::string Motorbike::getOwnerName() { return ownerName; }
 std::string getAvailableFrom(){ return availableFrom; };
 std::string getAvailableTo(){ return availableTo; };
+string Motorbike::toString(){
+    return brand + ", " + model + ", " + color + ", " + to_string(engineSize) + ", " + to_string(yearMade) +
+           licensePlate + ", " + location + ", " + to_string(dailyRateCP) + ", " + to_string(rating) + ", " + 
+           ownerName + ", " + availableFrom + ", " + availableTo;
+    }
