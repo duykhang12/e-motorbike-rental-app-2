@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 #include "Motorbike.h"
 #include "admin.h"
 #include "member.h"
