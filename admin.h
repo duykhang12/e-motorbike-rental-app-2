@@ -11,6 +11,7 @@ class Admin{
     private:
     vector<Member*> Member_list;
     vector<Motorbike*> Motorbike_list;
+
     public:
     Admin(){}
     Admin(vector<Member*> Member_list, vector<Motorbike*> Motorbike_list);
@@ -24,3 +25,4 @@ class Admin{
 
 
 #endif
+
