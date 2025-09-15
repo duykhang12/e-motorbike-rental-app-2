@@ -10,6 +10,8 @@ using namespace std;
 #define MYFILE1 "motorbikes.txt"
 #define MYFILE2 "members.txt"
 
+Admin::Admin(vector<Member*> Member_list, vector<Motorbike*> Motorbike_list) : Member_list(Member_list), Motorbike_list(Motorbike_list){}
+
 void Admin::showAllMember_List(){
     cout << left 
          << "| " << setw(10) << "Username"
@@ -264,3 +266,4 @@ void Admin::saveData(){
     }
     myfile2.close();
 }
+
