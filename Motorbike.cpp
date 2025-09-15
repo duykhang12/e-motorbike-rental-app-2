@@ -7,7 +7,7 @@ Motorbike::Motorbike(std::string& brand, std::string& model, std::string& color,
                      std::string& ownerName)
     : brand(brand), model(model), color(color), engineSize(engineSize), 
       yearMade(yearMade), licensePlate(licensePlate), location(location),
-      dailyRate(dailyRate), rating(rating), ownerName(ownerName) {}
+      dailyRate(dailyRate), rating(rating), ownerName(ownerName), availableFrom (availableFrom), availableTo(availableTo) {}
 
 std::string Motorbike::getBrand() { return brand; }
 std::string Motorbike::getModel() { return model; }
@@ -17,3 +17,7 @@ std::string Motorbike::getLocation() { return location; }
 double Motorbike::getDailyRate() { return dailyRate; }
 double Motorbike::getRating() { return rating; }
 std::string Motorbike::getOwnerName() { return ownerName; }
+std::string Motorbike::toString(){
+    return brand + ", " + model + ", " + color + ", " + to_string(engineSize) + ", " + to_string(yearMade) +
+           licensePlate + ", " + location + ", " + to_string(dailyRateCP) + ", " + to_string(rating) + ", " + 
+           ownerName + ", " + availableFrom + ", " + availableTo;}
