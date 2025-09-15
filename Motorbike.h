@@ -37,6 +37,9 @@ public:
     double getDailyRate();
     double getRating();
     std::string getOwnerName();
+    std::string toString();
+    friend class Member;
+    friend class Admin;
 };
 
 #endif
