@@ -1,4 +1,4 @@
-#include "Member.h"
+#include "member.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -110,6 +110,7 @@ void Member::ProfileManagement(){
         }
     } while (choice != 4);
 }
+
 
 
 
