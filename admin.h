@@ -15,7 +15,7 @@ private:
     string username, password;
     vector<Member *> Member_list;
     vector<Motorbike *> Motorbike_list;
-    std::vector<RentalRequest*> allRequests;
+    vector<RentalRequest*> allRequests;
 
 public:
     Admin() {}
@@ -38,4 +38,5 @@ public:
 
     friend class Member;
 };
+
 #endif
