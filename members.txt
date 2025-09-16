@@ -1,0 +1,10 @@
+john_doe, Jd@12345, John Doe, john@example.com, Passport, 1001, 912345678, 123456, 2028, 150.000000,4.500000
+alice_w, Aw@2024x, Alice Wong, alicew@example.com, ID, 1002, 934567890, 234567, 2027, 200.000000,4.200000
+bob_nguyen, Bn@pass9, Bob Nguyen, bobn@example.com, ID, 1003, 987654321, 345678, 2029, 300.000000,4.700000
+charlie_t, Ct@secure8, Charlie Tran, charliet@example.com, Passport, 1004, 923456789, 456789, 2026, 80.000000,3.900000
+diana_h, Dh@passX1, Diana Hoang, diana@example.com, ID, 1005, 976543210, 567890, 2030, 50.000000,3.500000
+edward_k, Ek@qweR2, Edward Kim, edward@example.com, Passport, 1006, 934567123, 678901, 2028, 120.000000,4.000000
+fiona_p, Fp@rty77, Fiona Pham, fiona@example.com, ID, 1007, 945612378, 789012, 2027, 220.000000,4.300000
+george_l, Gl@passT3, George Lam, george@example.com, ID, 1008, 987123456, 890123, 2029, 175.000000,4.600000
+hannah_v, Hv@passM4, Hannah Vu, hannah@example.com, Passport, 1009, 932178456, 901234, 2031, 300.000000,4.800000
+ivan_d, Id@passQ5, Ivan Dang, ivan@example.com, ID, 1010, 923781245, 112233, 2025, 60.000000,3.200000

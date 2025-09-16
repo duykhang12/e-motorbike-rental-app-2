@@ -1,269 +1,448 @@
 #include <iostream>
-#include<vector>
-#include<iomanip>
-#include<string>
-#include<fstream>
-#include<sstream>
+#include <vector>
+#include <iomanip>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <limits>
 #include "admin.h"
 #include "member.h"
+#include "Motorbike.h"
+#include "RentalRequest.h"
+
 using namespace std;
 #define MYFILE1 "motorbikes.txt"
 #define MYFILE2 "members.txt"
 
-Admin::Admin(vector<Member*> Member_list, vector<Motorbike*> Motorbike_list) : Member_list(Member_list), Motorbike_list(Motorbike_list){}
+Admin::Admin(string username, string password) : username(username), password(password) {}
 
-void Admin::showAllMember_List(){
-    cout << left 
+Admin *Admin::login(const std::string &filename, Admin &admin)
+{
+    std::string username, password;
+    cout << "Enter username: ";
+    cin >> username;
+    cout << "Enter password: ";
+    cin >> password;
+
+    ifstream file(filename);
+    if (!file.is_open())
+    {
+        cout << "Error: could not open " << filename << endl;
+        return nullptr;
+    }
+
+    string line;
+    while (getline(file, line))
+    {
+        stringstream ss(line);
+        string uname, pass;
+
+        getline(ss, uname, ',');
+        if (ss.peek() == ' ')
+            ss.ignore();
+        getline(ss, pass);
+
+        if (uname == username && pass == password)
+        {
+            cout << "\nLogin successful!\n";
+            return &admin;
+        }
+    }
+
+    cout << "Invalid username or password.\n";
+    return nullptr;
+}
+bool Admin::adminMenu()
+{
+    int choice;
+    do
+    {
+        cout << "\n--- Admin Menu ---\n";
+        cout << "1. View Members List\n";
+        cout << "2. View Motorbikes List\n";
+        cout << "3. Register New Member\n";
+        cout << "0. Logout\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice)
+        {
+        case 1:
+            showAllMember_List();
+            break;
+        case 2:
+            showAllMotorbike_List();
+            break;
+        case 3:
+            regist();
+            break;
+        case 0:
+            cout << "Logging out...\n";
+            return true;
+            break;
+        default:
+            cout << "Invalid option. Try again.\n";
+        }
+    } while (choice != 0);
+    return false;
+}
+
+void Admin::showAllMember_List()
+{
+    cout << "\n--------- Members List ---------\n\n";
+    cout << left
          << "| " << setw(10) << "Username"
-         << "| " << setw(10) << "Password"
+         << "| " << setw(15) << "Password"
          << "| " << setw(15) << "Fullname"
-         << "| " << setw(10) << "Email"
+         << "| " << setw(25) << "Email"
          << "| " << setw(10) << "ID.Type"
          << "| " << setw(10) << "ID.Number"
-         << "| " << setw(10) << "PhoneNumber"
-         << "| " << setw(10) << "LicenseNumber"
+         << "| " << setw(15) << "PhoneNumber"
+         << "| " << setw(15) << "LicenseNumber"
          << "| " << setw(10) << "ExpiryDate"
          << "| " << setw(10) << "CP"
          << "| " << setw(10) << "Rating"
          << "| " << endl;
-    for (auto i : Member_list){
-        cout << left 
+    for (auto i : Member_list)
+    {
+        cout << left
              << "| " << setw(10) << i->username
-             << "| " << setw(10) << i->password
+             << "| " << setw(15) << i->password
              << "| " << setw(15) << i->fullname
-             << "| " << setw(10) << i->email
+             << "| " << setw(25) << i->email
              << "| " << setw(10) << i->id_type
              << "| " << setw(10) << i->id
-             << "| " << setw(10) << i->phone_number
-             << "| " << setw(10) << i->licen_number
+             << "| " << setw(15) << i->phone_number
+             << "| " << setw(15) << i->licen_number
              << "| " << setw(10) << i->expiry_date
              << "| " << setw(10) << i->cp
-             << "| " << setw(10) << i->rating;
+             << "| " << setw(10) << i->rating
+             << "| " << endl;
     }
 }
 
-void Admin::showAllMotorbike_List(){
-    cout << left 
+void Admin::showAllMotorbike_List()
+{
+    cout << "\n--------- Motorbikes List ---------\n\n";
+    cout << left
          << "| " << setw(10) << "Brand"
          << "| " << setw(10) << "Model"
          << "| " << setw(10) << "Color"
          << "| " << setw(10) << "EngineSize"
          << "| " << setw(10) << "YearMade"
-         << "| " << setw(10) << "LicensePlate"
+         << "| " << setw(15) << "LicensePlate"
          << "| " << setw(10) << "Location"
          << "| " << setw(10) << "CP"
          << "| " << setw(10) << "Rating"
          << "| " << setw(10) << "OwnerName"
-         << "| " << setw(10) << "AvailableFrom"
-         << "| " << setw(10) << "AvaibleTo"
+         << "| " << setw(15) << "AvailableFrom"
+         << "| " << setw(15) << "AvaibleTo"
          << "| " << endl;
-    for (auto i : Motorbike_list){
-        cout << left 
-             << "| " << setw(10) << i->brand
-             << "| " << setw(10) << i->model
+    for (auto i : Motorbike_list)
+    {
+        cout << left
+             << "| " << setw(10) << i->getBrand()
+             << "| " << setw(10) << i->getModel()
              << "| " << setw(10) << i->color
-             << "| " << setw(10) << i->engineSize
+             << "| " << setw(10) << i->getEngineSize()
              << "| " << setw(10) << i->yearMade
-             << "| " << setw(10) << i->licensePlate
+             << "| " << setw(15) << i->licensePlate
              << "| " << setw(10) << i->location
-             << "| " << setw(10) << i->dailyRateCP
-             << "| " << setw(10) << i->rating
-             << "| " << setw(10) << i->ownerName
-             << "| " << setw(10) << i->availableFrom
-             << "| " << setw(10) << i->availableTo;
+             << "| " << setw(10) << i->getDailyRate()
+             << "| " << setw(10) << i->getRating()
+             << "| " << setw(10) << i->getOwnerName()
+             << "| " << setw(15) << i->getAvailableFrom()
+             << "| " << setw(15) << i->getAvailableTo()
+             << "| " << endl;
     }
 }
 
-void Admin::showGeneralMotorbike_list(){
-    cout << left 
+void Admin::showGeneralMotorbike_list()
+{
+    cout << "\n--------- General Motorbikes List ---------\n\n";
+    cout << left
          << "| " << setw(10) << "Brand"
          << "| " << setw(10) << "Model"
          << "| " << setw(10) << "Size"
          << "| " << setw(10) << "Location"
          << "| " << endl;
-    for (auto i : Motorbike_list){
-        cout << left 
-             << "| " << setw(10) << i->brand
-             << "| " << setw(10) << i->model
-             << "| " << setw(10) << i->engineSize
-             << "| " << setw(10) << i->location;
+    for (auto i : Motorbike_list)
+    {
+        cout << left
+             << "| " << setw(10) << i->getBrand()
+             << "| " << setw(10) << i->getModel()
+             << "| " << setw(10) << i->getEngineSize()
+             << "| " << setw(10) << i->getLocation()
+             << "| " << endl;
     }
 }
 
-void Admin::regist(){
+void Admin::regist()
+{
     string username, password, fullname, email, id_type;
-    int phone_number, id, licen_number, expiry_date;
+    string phone_number, id, licen_number, expiry_date;
     cout << "Enter your username: ";
     cin >> username;
-    do {
+    do
+    {
         cout << "Enter your password: ";
-        cin.ignore(1,'\n');
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin, password);
-        if (!Member::isStrongPasssword(password)){
+        if (!Member::isStrongPasssword(password))
+        {
             cout << "Weak password! Must be at least 8 characters and include uppercase, lowercase, digit, and special character." << endl;
         }
     } while (!Member::isStrongPasssword(password));
-
     cout << "Enter your full name: ";
-    cin.ignore(1, '\n');
     getline(cin, fullname);
     cout << "Enter your email: ";
-    cin >> email;
+    getline(cin, email);
     cout << "Enter your ID type (Citizen ID or Passport): ";
-    cin.ignore(1, '\n');
     getline(cin, id_type);
     cout << "Enter your ID number: ";
-    cin >> id;
-
+    getline(cin, id);
+    cout << "Enter your phone number: ";
+    getline(cin, phone_number);
     int choice;
-    while (true){
+    while (true)
+    {
         cout << "Do you have license number? " << endl;
         cout << "1. Yes" << endl;
         cout << "2. No" << endl;
         cout << "Your answer: ";
         cin >> choice;
-        if(choice == 1){
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        if (choice == 1)
+        {
             cout << "Enter your license number: ";
-            cin >> licen_number;
+            getline(cin, licen_number);
             cout << "Enter your expiry date: ";
-            cin >> expiry_date;
+            getline(cin, expiry_date);
             break;
-        } else if (choice ==2) {
-            licen_number = 0;
-            expiry_date = 0;
+        }
+        else if (choice == 2)
+        {
+            licen_number = "0";
+            expiry_date = "0";
             break;
-        } else {
+        }
+        else
+        {
             cout << "Invalid choice. Try again!" << endl;
         }
     }
     cout << "Registration fee is 20$. Your CP: 20 (1$=1CP)" << endl;
-    cout << "Your default rating is 3.0";
-    Member* newmem = new Member(username, password, fullname, email, id_type, phone_number, id, licen_number, expiry_date);
+    cout << "Your default rating is 3.0" << endl;
+    Member *newmem = new Member(username, password, fullname, email, id_type, id, phone_number, licen_number, expiry_date, 20.0, 3.0);
     Member_list.push_back(newmem);
+    saveMembers();
+    cout << "Member registered successfully!" << endl;
 }
 
-bool Admin::reloadMotorbikes(){
-    ifstream myfile1;
-    myfile1.open(MYFILE1);
-    if (!myfile1){
-        return false;
-    } else {
-        string brand;
-        string model;
-        string color;
-        string engineSizestr;
-        int engineSize;
-        string yearmadestr;     
-        int yearMade;
-        string licensePlate;
-        string location;
-        string dailyRateCPstr;
-        double dailyRateCP; 
-        string ratingstr;      
-        double rating;          
-        string ownerName; 
-        string availableFrom;
-        string availableTo; 
-        while(myfile1.peek()!= EOF){
-            getline(myfile1,brand,',');
-            getline(myfile1,model,',');
-            getline(myfile1,color,',');
-            getline(myfile1,engineSizestr,',');
-            engineSize = stod(engineSizestr);
-            getline(myfile1,yearmadestr,',');
-            yearMade = stod(yearmadestr);
-            getline(myfile1,licensePlate,',');
-            getline(myfile1,location,',');
-            getline(myfile1,dailyRateCPstr,',');
-            dailyRateCP = stod(dailyRateCPstr);
-            getline(myfile1,ratingstr,',');
-            rating = stod(ratingstr);
-            getline(myfile1,ownerName,',');
-            getline(myfile1,availableFrom,',');
-            getline(myfile1,availableTo,',');
-            
-            Motorbike* motors = new Motorbike(brand, model, color, engineSize, yearMade, licensePlate, location, dailyRateCP, rating, ownerName, availableFrom, availableTo);
-            Motorbike_list.push_back(motors);
-        }
-        myfile1.close();
-        return true;
+bool Admin::reloadMembers()
+{
+    for (auto m : Member_list)
+    {
+        delete m;
     }
-}
-
-bool Admin::reloadMembers(){
-    ifstream myfile2;
-    myfile2.open(MYFILE2);
-    if (!myfile2){
+    Member_list.clear();
+    ifstream in(MYFILE2);
+    if (!in.is_open())
         return false;
-    } else {
+    string line;
+    while (getline(in, line))
+    {
+        stringstream ss(line);
         string username, password, fullname, email, id_type;
-        string phonestr, idstr, licenstr, expirystr, cpstr, ratingstr;
-        int id, phone_number, licen_number, expiry_date, cp, rating;
-        while(myfile2.peek()!= EOF){
-            getline(myfile2,username,',');
-            getline(myfile2,password,',');
-            getline(myfile2,fullname,',');
-            getline(myfile2,email,',');
-            getline(myfile2,id_type,',');
-            getline(myfile2,idstr,',');
-            id = stod(idstr);
-            getline(myfile2,phonestr,',');
-            phone_number = stod(phonestr);
-            getline(myfile2,licenstr,',');
-            licen_number = stod(licenstr);
-            getline(myfile2,expirystr,',');
-            expiry_date = stod(expirystr);
-            getline(myfile2,cpstr,',');
-            cp = stod(cpstr);
-            getline(myfile2,ratingstr,',');
-            rating = stod(ratingstr);
+        string id, phone_number, licen_number, expiry_date;
+        double cp, rating;
 
-            Member* mems = new Member(username, password, fullname, email, id_type, id, phone_number, licen_number, expiry_date, cp, rating);
-            Member_list.push_back(mems);
-        }
-        myfile2.close();
-        return true;
-    }
+        getline(ss, username, ',');
+        ss.ignore();
+        getline(ss, password, ',');
+        ss.ignore();
+        getline(ss, fullname, ',');
+        ss.ignore();
+        getline(ss, email, ',');
+        ss.ignore();
+        getline(ss, id_type, ',');
+        ss.ignore();
+        getline(ss, id, ',');
+        ss.ignore();
+        getline(ss, phone_number, ',');
+        ss.ignore();
+        getline(ss, licen_number, ',');
+        ss.ignore();
+        getline(ss, expiry_date, ',');
+        ss.ignore();
+        ss >> cp;
+        ss.ignore();
+        ss >> rating;
 
-    for (auto i : Member_list){
-        for (auto j : Motorbike_list){
-            if (i->fullname.compare(j->ownerName) == 0){
-                i->ownermotorbike = j;
-            }
-        }
+        Member_list.push_back(new Member(username, password, fullname, email, id_type,
+                                         id, phone_number, licen_number, expiry_date, cp, rating));
     }
     return true;
 }
 
-void Admin::saveData(){
-    ofstream myfile1;
-    myfile1.open(MYFILE1);
-    if (!myfile1){
-        cerr << "Problem with the file" << endl;
-        return;
+bool Admin::reloadMotorbikes()
+{
+    for (auto b : Motorbike_list)
+    {
+        delete b;
     }
-    if (Motorbike_list.empty()){
-        cout << "Motorbikes list is empty. 0 motorbike is saved" << endl;
-    } else {
-        for (auto i : Motorbike_list){
-            myfile1 << i->toString() << endl;
-        }
-    }
-    myfile1.close();
+    Motorbike_list.clear();
+    ifstream in(MYFILE1);
+    if (!in.is_open())
+        return false;
+    string line;
+    while (getline(in, line))
+    {
+        stringstream ss(line);
+        string brand, model, color, licensePlate, location, ownerName, availableFrom, availableTo, rentedFrom, rentedTo;
+        int engineSize, yearMade, isRentedInt;
+        double dailyRate, rating;
 
-    ofstream myfile2;
-    myfile2.open(MYFILE2);
-    if (!myfile2){
-        cerr << "Problem with the file" << endl;
-        return;
+        getline(ss, brand, ',');
+        getline(ss, model, ',');
+        getline(ss, color, ',');
+        ss >> engineSize;
+        ss.ignore();
+        ss >> yearMade;
+        ss.ignore();
+        getline(ss, licensePlate, ',');
+        getline(ss, location, ',');
+        ss >> dailyRate;
+        ss.ignore();
+        ss >> rating;
+        ss.ignore();
+        getline(ss, ownerName, ',');
+        getline(ss, availableFrom, ',');
+        getline(ss, availableTo, ',');
+        ss >> isRentedInt;
+        ss.ignore();
+        getline(ss, rentedFrom, ',');
+        getline(ss, rentedTo);
+
+        Motorbike_list.push_back(new Motorbike(brand, model, color, engineSize, yearMade, licensePlate, location, dailyRate, rating, ownerName, availableFrom, availableTo, isRentedInt == 1, rentedFrom, rentedTo));
     }
-    if (Member_list.empty()){
-        cout << "Members list is empty. 0 member is saved" << endl;
-    } else {
-        for (auto i : Member_list){
-            myfile2 << i->toString() << endl;
-        }
-    }
-    myfile2.close();
+    return true;
 }
 
+bool Admin::reloadRequests()
+{
+    for (auto r : allRequests)
+    {
+        delete r;
+    }
+    allRequests.clear();
+    ifstream in("rental_request.txt");
+    if (!in.is_open())
+        return false;
+
+    string line;
+    while (getline(in, line))
+    {
+        stringstream ss(line);
+        string reqIDStr, daysStr, statusStr, completedStr, renterRatingStr, ownerRatingStr;
+        string renterName, ownerName, bikePlate, renterComment, ownerComment;
+        int reqID, days;
+        int status;
+        bool completed;
+        int renterRatingGiven, ownerRatingGiven;
+
+        getline(ss, reqIDStr, ',');
+        reqID = stoi(reqIDStr);
+        getline(ss, renterName, ',');
+        getline(ss, ownerName, ',');
+        getline(ss, bikePlate, ',');
+        getline(ss, daysStr, ',');
+        days = stoi(daysStr);
+        getline(ss, statusStr, ',');
+        status = stoi(statusStr);
+        getline(ss, completedStr, ',');
+        completed = (completedStr == "1");
+        getline(ss, renterRatingStr, ',');
+        renterRatingGiven = stoi(renterRatingStr);
+        getline(ss, renterComment, ',');
+        getline(ss, ownerRatingStr, ',');
+        ownerRatingGiven = stoi(ownerRatingStr);
+        getline(ss, ownerComment);
+
+        Member *renter = nullptr;
+        Member *owner = nullptr;
+        Motorbike *bike = nullptr;
+
+        for (auto m : Member_list)
+        {
+            if (m->username == renterName)
+                renter = m;
+            if (m->username == ownerName)
+                owner = m;
+        }
+        for (auto b : Motorbike_list)
+        {
+            if (b->licensePlate == bikePlate)
+                bike = b;
+        }
+
+        if (!renter || !owner || !bike)
+            continue;
+
+        RentalRequest *req = new RentalRequest(reqID, renter, owner, bike, days);
+        if (status == 1)
+            req->approve();
+        else if (status == 2)
+            req->reject();
+
+        if (completed)
+            req->completeRental();
+        req->setRenterRating(renterRatingGiven);
+        req->setRenterComment(renterComment);
+
+        allRequests.push_back(req);
+    }
+    return true;
+}
+
+bool Admin::saveMotorbikes()
+{
+    ofstream out("motorbikes.txt", ios::trunc);
+    if (!out)
+        return false;
+    for (auto b : Motorbike_list)
+    {
+        out << b->toString() << "\n";
+    }
+    return true;
+}
+
+bool Admin::saveRequests()
+{
+    ofstream out("rental_request.txt", ios::trunc);
+    if (!out)
+        return false;
+    for (auto r : allRequests)
+    {
+        out << r->toString() << "\n";
+    }
+    return true;
+}
+
+bool Admin::saveMembers()
+{
+    ofstream out("members.txt", ios::trunc);
+    if (!out)
+        return false;
+    for (auto m : Member_list)
+    {
+        out << m->toString() << "\n";
+    }
+    return true;
+}
+
+void Admin::addRequest(RentalRequest *req)
+{
+    allRequests.push_back(req);
+}

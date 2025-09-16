@@ -1,0 +1,8 @@
+1,john_doe,alice_w,59X3-216.86,0,1,1,5,Nice,0,
+2,charlie_t,bob_nguyen,30X2-112.45,5,1,0,0,,0,
+3,george_l,diana_h,31X5-453.21,2,1,0,0,,0,
+4,ivan_d,charlie_t,79B1-987.65,10,0,0,0,,0,
+5,john_doe,bob_nguyen,30X2-112.45,0,1,1,4,Nice,0,
+6,john_doe,diana_h,31X5-453.21,4,1,1,1,Nice,0,
+7,john_doe,alice_w,59X3-216.86,2,1,1,5,Nice Bike!,0,
+8,john_doe,bob_nguyen,30X2-112.45,2,1,1,4,Nice bike!,0,

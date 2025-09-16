@@ -1,40 +1,55 @@
 #ifndef RENTALREQUEST_H
 #define RENTALREQUEST_H
 
+#include <iostream>
 #include <string>
-#include "member.h"
-#include "Motorbike.h"
-using namespace std;
 
-enum class RequestStatus {
+class Member;
+class Motorbike;
+
+enum class RequestStatus
+{
     Pending,
     Approved,
     Rejected
 };
 
-class RentalRequest {
-private:
-    string requestID;
+class RentalRequest
+{
+public:
+    int requestID;
     Member* renter;
     Member* owner;
     Motorbike* bike;
-    int days; // duration
+    int days;
     RequestStatus status;
+    bool completed = false;
 
-public:
-    RentalRequest(string requestID, Member* renter, Member* owner, Motorbike* bike, int days);
+    int renterRatingGiven = 0;
+    std::string renterComment = "";
+    int ownerRatingGiven = 0;
+    std::string ownerComment = "";
 
-    string getRequestID() const;
-    Member* getRenter() const;
-    Member* getOwner() const;
-    Motorbike* getBike() const;
-    int getDays() const;
-    RequestStatus getStatus() const;
+    RentalRequest(int id, Member* renter, Member* owner, Motorbike* bike, int days);
+    
+    int getRequestID();
+    Member* getRenter();
+    Member* getOwner();
+    Motorbike* getBike();
+    int getDays();
+    RequestStatus getStatus();
 
     void approve();
     void reject();
-    void showRequest() const;
+    void showRequest();
+    bool isCompleted();
+    void completeRental();
+    
+    bool renterRated();
+    void setRenterRating(int rating);
+    void setRenterComment(std::string comment);
+    
+    std::string toString();
 };
 
 #endif
-

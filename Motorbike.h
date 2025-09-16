@@ -2,46 +2,59 @@
 #define MOTORBIKE_H
 
 #include <string>
+#include <vector>
 
-class Motorbike {
+class Motorbike
+{
 private:
     std::string brand;
     std::string model;
     std::string color;
-    int engineSize;     // in cc
+    int engineSize;
     int yearMade;
     std::string licensePlate;
-    std::string location;   // HCMC or Hanoi
+    std::string location;
 
-    // Extra fields (not shown to guests)
-    double dailyRate;       
-    double rating;          
-    std::string ownerName;  
+    double dailyRate;
+    double rating;
+    std::string ownerName;
     std::string availableFrom;
     std::string availableTo;
 
-public:
-    //ructor
-    Motorbike(std::string& brand, std::string& model, std::string& color,
-              int engineSize, int yearMade, std::string& licensePlate, 
-              std::string& location, double dailyRate, double rating,
-              std::string& ownerName);
+    bool isRented = false;
+    std::string rentedFrom;
+    std::string rentedTo;
 
-    // Getters (some restricted for guests)
+public:
+    Motorbike(std::string brand, std::string model, std::string color,
+              int engineSize, int yearMade, std::string licensePlate,
+              std::string location, double dailyRate, double rating,
+              std::string ownerName, std::string availableFrom, std::string availableTo);
+    
+    Motorbike(std::string brand, std::string model, std::string color,
+              int engineSize, int yearMade, std::string licensePlate,
+              std::string location, double dailyRate, double rating,
+              std::string ownerName, std::string availableFrom, std::string availableTo,
+              bool isRented, std::string rentedFrom, std::string rentedTo);
+
     std::string getBrand();
     std::string getModel();
     int getEngineSize();
+    std::string getLicensePlate();
     std::string getLocation();
-
-    // For members/admin only
     double getDailyRate();
     double getRating();
     std::string getOwnerName();
     std::string getAvailableFrom();
     std::string getAvailableTo();
+    bool getIsRented();
+    std::string getRentedFrom();
+    std::string getRentedTo();
+
     std::string toString();
-    friend class Member;
     friend class Admin;
+    friend class Member;
+    friend class RentalRequest;
 };
 
 #endif
