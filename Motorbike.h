@@ -17,8 +17,8 @@ private:
     double dailyRate;       
     double rating;          
     std::string ownerName;  
-    string availableFrom;
-    string availableTo;
+    std::string availableFrom;
+    std::string availableTo;
 
 public:
     //ructor
