@@ -16,10 +16,10 @@ using namespace std;
 class Admin
 {
 private:
-    string username, password;
-    vector<Member *> Member_list;
-    vector<Motorbike *> Motorbike_list;
-    std::vector<RentalRequest*> allRequests;
+    string username, password;                     // Admin login credentials
+    vector<Member *> Member_list;                  // All registered members
+    vector<Motorbike *> Motorbike_list;            // All registered motorbikes
+    std::vector<RentalRequest*> allRequests;       // All rental requests in the system
 
 public:
     Admin() {}
